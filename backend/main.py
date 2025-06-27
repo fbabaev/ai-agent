@@ -2,13 +2,16 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
-from retrieval import get_qa_chain, add_document_to_index
+from backend.retrieval import get_qa_chain, add_document_to_index
 import os
 import shutil
 import uuid
 from azure.storage.blob import BlobServiceClient
 
 load_dotenv()
+
+print("AZURE_STORAGE_CONNECTION_STRING:", os.getenv("AZURE_STORAGE_CONNECTION_STRING"))
+print("AZURE_STORAGE_CONTAINER_NAME:", os.getenv("AZURE_STORAGE_CONTAINER_NAME"))
 
 app = FastAPI()
 

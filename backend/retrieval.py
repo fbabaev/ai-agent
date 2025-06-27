@@ -11,6 +11,8 @@ from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
 import mimetypes
 from PyPDF2 import PdfReader
+import pytesseract
+from PIL import Image
 
 # Load environment variables
 load_dotenv()
@@ -44,6 +46,14 @@ def add_document_to_index(file_path: str, filename: str):
         if filename.lower().endswith('.pdf') or (mime_type and 'pdf' in mime_type):
             print("Detected PDF file. Extracting text...")
             content = extract_text_from_pdf(file_path)
+        elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.tif', '.gif')) or (mime_type and mime_type.startswith('image/')):
+            print("Detected image file. Extracting text with OCR...")
+            try:
+                image = Image.open(file_path)
+                content = pytesseract.image_to_string(image)
+            except Exception as e:
+                print(f"Error extracting text from image: {e}")
+                content = ""
         else:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
