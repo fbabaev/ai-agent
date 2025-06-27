@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Page</title>
+</head>
+<body>
+  <h1>Test Page</h1>
+  
+  <div>
+    <input type="file" id="fileInput" />
+    <button onclick="testUpload()">Test Upload</button>
+  </div>
+
+  <hr />
+
+  <div>
+    <textarea id="question" rows="4" placeholder="Ask your question..."></textarea><br />
+    <button onclick="testAsk()">Test Ask</button>
+  </div>
+
+  <h3>Answer:</h3>
+  <pre id="answer">Test output will appear here</pre>
+
+  <script>
+    // Simple test functions
+    function testUpload() {
+      const input = document.getElementById("fileInput");
+      const answerBox = document.getElementById("answer");
+      
+      console.log("Test Upload - fileInput:", input);
+      console.log("Test Upload - answerBox:", answerBox);
+      
+      if (input && answerBox) {
+        answerBox.innerText = "✅ Test upload function works!";
+      } else {
+        answerBox.innerText = "❌ Elements not found!";
+      }
+    }
+    
+    function testAsk() {
+      const questionInput = document.getElementById("question");
+      const answerBox = document.getElementById("answer");
+      
+      console.log("Test Ask - questionInput:", questionInput);
+      console.log("Test Ask - answerBox:", answerBox);
+      
+      if (questionInput && answerBox) {
+        answerBox.innerText = "✅ Test ask function works!";
+      } else {
+        answerBox.innerText = "❌ Elements not found!";
+      }
+    }
+    
+    // Check elements on load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("DOM loaded - checking elements...");
+      
+      const fileInput = document.getElementById("fileInput");
+      const questionInput = document.getElementById("question");
+      const answerBox = document.getElementById("answer");
+      
+      console.log("fileInput:", fileInput);
+      console.log("questionInput:", questionInput);
+      console.log("answerBox:", answerBox);
+      
+      if (fileInput && questionInput && answerBox) {
+        console.log("✅ All elements found!");
+      } else {
+        console.log("❌ Some elements missing!");
+      }
+    });
+  </script>
+</body>
+</html> 

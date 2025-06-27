@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Test</title>
+</head>
+<body>
+  <h1>Simple Test</h1>
+  
+  <div>
+    <input type="file" id="fileInput" />
+    <button onclick="testUpload()">Upload</button>
+  </div>
+
+  <hr />
+
+  <div>
+    <textarea id="question" rows="4" placeholder="Ask your question..."></textarea><br />
+    <button onclick="testAsk()">Ask</button>
+  </div>
+
+  <h3>Answer:</h3>
+  <pre id="answer">Ready for testing...</pre>
+
+  <script>
+    const apiBase = "http://localhost:8000";
+    
+    function testUpload() {
+      const input = document.getElementById("fileInput");
+      const answerBox = document.getElementById("answer");
+      
+      console.log("Test Upload - Elements found:", {input, answerBox});
+      
+      if (!input || !answerBox) {
+        alert("Elements not found!");
+        return;
+      }
+      
+      if (!input.files.length) {
+        alert("Please choose a file.");
+        return;
+      }
+      
+      answerBox.innerText = "Testing upload...";
+      
+      const formData = new FormData();
+      formData.append("file", input.files[0]);
+      
+      fetch(`${apiBase}/upload`, {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        answerBox.innerText = `✅ Upload successful: ${data.filename}`;
+      })
+      .catch(err => {
+        console.error(err);
+        answerBox.innerText = "❌ Upload failed";
+      });
+    }
+    
+    function testAsk() {
+      const questionInput = document.getElementById("question");
+      const answerBox = document.getElementById("answer");
+      
+      console.log("Test Ask - Elements found:", {questionInput, answerBox});
+      
+      if (!questionInput || !answerBox) {
+        alert("Elements not found!");
+        return;
+      }
+      
+      const question = questionInput.value;
+      if (!question) {
+        alert("Please ask a question.");
+        return;
+      }
+      
+      answerBox.innerText = "Testing ask...";
+      
+      fetch(`${apiBase}/ask`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      })
+      .then(res => res.json())
+      .then(data => {
+        answerBox.innerText = data.answer || "No answer returned.";
+      })
+      .catch(err => {
+        console.error(err);
+        answerBox.innerText = "❌ Ask failed";
+      });
+    }
+    
+    // Check elements on load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("DOM loaded - checking elements...");
+      
+      const fileInput = document.getElementById("fileInput");
+      const questionInput = document.getElementById("question");
+      const answerBox = document.getElementById("answer");
+      
+      console.log("Elements found:", {fileInput, questionInput, answerBox});
+      
+      if (fileInput && questionInput && answerBox) {
+        console.log("✅ All elements found!");
+        answerBox.innerText = "✅ All elements found! Ready for testing.";
+      } else {
+        console.log("❌ Some elements missing!");
+        answerBox.innerText = "❌ Some elements missing!";
+      }
+    });
+  </script>
+</body>
+</html> 
