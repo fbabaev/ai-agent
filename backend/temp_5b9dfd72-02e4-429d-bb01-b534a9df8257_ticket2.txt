@@ -1,5 +1,0 @@
-Subject: App crashes on login
-
-The mobile app crashes right after I enter my login credentials. I've tried reinstalling and rebooting. Still happens.
-
-– Raj, India

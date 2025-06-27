@@ -9,6 +9,8 @@ from uuid import uuid4
 import datetime
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
+import mimetypes
+from PyPDF2 import PdfReader
 
 # Load environment variables
 load_dotenv()
@@ -22,15 +24,34 @@ AZURE_SEARCH_INDEX_NAME = os.getenv("AZURE_SEARCH_INDEX_NAME")
 AZURE_SEARCH_ENDPOINT = os.getenv("AZURE_SEARCH_ENDPOINT")
 AZURE_SEARCH_KEY = os.getenv("AZURE_SEARCH_KEY")
 
+def extract_text_from_pdf(file_path):
+    try:
+        reader = PdfReader(file_path)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text() or ""
+        return text
+    except Exception as e:
+        print(f"Error extracting PDF text: {e}")
+        return ""
+
 def add_document_to_index(file_path: str, filename: str):
     """Process a document and add it to the Azure Search index"""
     try:
         print(f"Reading document: {file_path}")
-        
-        # Read the document content
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
+        # Detect file type
+        mime_type, _ = mimetypes.guess_type(file_path)
+        if filename.lower().endswith('.pdf') or (mime_type and 'pdf' in mime_type):
+            print("Detected PDF file. Extracting text...")
+            content = extract_text_from_pdf(file_path)
+        else:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+        if not content.strip():
+            print("No text extracted from file.")
+            return False
+
         print(f"Document content length: {len(content)} characters")
         
         # Split the document into chunks

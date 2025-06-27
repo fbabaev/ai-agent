@@ -1,5 +1,0 @@
-Subject: Error 503 on dashboard
-
-Every morning at 9 AM, the main dashboard throws a 503 error. Happening for 3 days now. Please fix urgently.
-
-– Jake, US
