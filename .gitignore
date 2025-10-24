@@ -1,0 +1,12 @@
+# Ignore environment files
+.env
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore uploaded files
+uploaded_files/
+
+# Ignore node_modules if any
+node_modules/
