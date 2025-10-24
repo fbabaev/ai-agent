@@ -1,12 +1,15 @@
-# Ignore environment files
+# Environment variables
 .env
 
-# Ignore Python cache
+# Python cache
 __pycache__/
 *.pyc
 
-# Ignore uploaded files
+# Node modules (if frontend uses npm)
+node_modules/
+
+# Uploaded or generated files
 uploaded_files/
 
-# Ignore node_modules if any
-node_modules/
+# OS files
+.DS_Store
