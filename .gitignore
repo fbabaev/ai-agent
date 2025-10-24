@@ -13,3 +13,4 @@ uploaded_files/
 
 # OS files
 .DS_Store
+.env
