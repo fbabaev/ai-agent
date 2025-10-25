@@ -1,0 +1,16 @@
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node modules (if frontend uses npm)
+node_modules/
+
+# Uploaded or generated files
+uploaded_files/
+
+# OS files
+.DS_Store
+.env
